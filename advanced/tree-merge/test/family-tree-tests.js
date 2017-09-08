@@ -3,10 +3,30 @@ const familyTree = require('../lib/family-tree');
 
 describe('Family tree', function() {
     describe('merges', function() {
-        beforeEach(function() {
+        it('two simple children together', function() {
+            const son = {
+                name: 'Richard',
+                children: [{
+                    name: 'Jason',
+                    children: []
+                }]
+            };
+            const daughter = {
+                name: 'Richard',
+                children: [{
+                    name: 'Sarah',
+                    children: []
+                }]
+            };
+
+            const merged = familyTree.merge(son, daughter);
+            assert.equal(merged.name, 'Richard');
+            assert.equal(merged.children.length, 2);
+            assert.equal(merged.children[0].name, 'Jason');
+            assert.equal(merged.chidlren[1].name, 'Sarah');
         });
-        it('two trees together', function() {
-            const parentTree = {
+        it('two sub trees together', function() {
+            const parent = {
                 name: 'Richard',
                 children: [{
                     name: 'Jason',
@@ -20,7 +40,7 @@ describe('Family tree', function() {
                 }]
             };
 
-            const sisterTree = {
+            const sister = {
                 name: 'Sarah',
                 children: [{
                     name: 'George',
@@ -31,12 +51,12 @@ describe('Family tree', function() {
                 }]
             };
 
-            const mergedTree = familyTree.merge(parentTree, sisterTree);
-            assert.equal(mergedTree.name, 'Richard');
-            assert.equal(mergedTree.children.length, 2);
-            assert.equal(mergedTree.chidlren[0].children.length, 1);
-            assert.equal(mergedTree.children[1].name, 'Sarah');
-            assert.equal(mergedTree.children[1].children.length, 2);
+            const merged = familyTree.merge(parent, sister);
+            assert.equal(merged.name, 'Richard');
+            assert.equal(merged.children.length, 2);
+            assert.equal(merged.children[0].children.length, 1);
+            assert.equal(merged.children[1].name, 'Sarah');
+            assert.equal(merged.children[1].children.length, 2);
         });
     });
 });
